@@ -40,11 +40,19 @@ for img_file in image_files:
         
         # Only save number crops (class 0 = 'card_number' based on your YAML)
         if cls == 0:
-            crop = img[y1:y2, x1:x2]
+
+            margin = 5
+            h_img, w_img = img.shape[:2]
+            x1m = max(0, x1 - margin)
+            y1m = max(0, y1 - margin)
+            x2m = min(w_img, x2 + margin)
+            y2m = min(h_img, y2 + margin)
+
+            crop = img[y1m:y2m, x1m:x2m]
             
             # Save crop
             base_name = os.path.splitext(img_file)[0]
-            crop_name = f"{base_name}_{i}.png"
+            crop_name = f"{base_name}.png"
             cv2.imwrite(os.path.join(output_dir, crop_name), crop)
             
             # Optionally, save label placeholder for OCR training
