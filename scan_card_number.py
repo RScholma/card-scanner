@@ -1,3 +1,14 @@
+"""
+DEPRECATED - kept only as the original baseline.
+
+This is the naive approach: guess where the number is from fixed image ratios,
+threshold, and hand it to Tesseract. It scores ~2% exact match on the labelled
+crops because the text is far too small to read this way.
+
+Use `scan_pipeline.scan()` (detection + `recognize_card_number.recognize()`)
+instead.
+"""
+
 import cv2
 import pytesseract
 

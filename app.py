@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 from detect_card import detect_card_and_number
-from scan_card_number import extract_card_number
+from scan_pipeline import scan
 
 app = FastAPI(title="Card Scanner API")
 
@@ -11,15 +11,24 @@ app = FastAPI(title="Card Scanner API")
 @app.post("/scan-card")
 async def scan_card(file: UploadFile = File(...)):
     """
-    Extracts the card number text from an uploaded image using OCR.
+    Detects each card in the uploaded image, locates its set number and reads it.
+
+    Returns the best result plus every card found:
+        {"number": "RA01-EN057", "confidence": 0.81, "cards": [...]}
     """
     # Read uploaded file into OpenCV image
     img_bytes = await file.read()
     img = cv2.imdecode(np.frombuffer(img_bytes, np.uint8), cv2.IMREAD_COLOR)
+    if img is None:
+        return {"number": None, "confidence": 0.0, "cards": [], "error": "unreadable image"}
 
-    # Extract card number
-    card_number = extract_card_number(img)
-    return {"number": card_number}
+    cards = scan(img)
+    best = max((c for c in cards if c["number"]), key=lambda c: c["confidence"], default=None)
+    return {
+        "number": best["number"] if best else None,
+        "confidence": best["confidence"] if best else 0.0,
+        "cards": cards,
+    }
 
 
 @app.post("/annotate-card")
