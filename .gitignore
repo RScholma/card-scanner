@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+*.egg-info/
+
+# Trained model weights, training run artifacts (bulky, regenerable)
+# A small curated set of result plots is kept under docs/results/ instead.
+runs/
+*.pt
+
+# Dataset images (hundreds of MB, regenerable via scraping/labeling scripts)
+dataset/
+
+# OS/editor
+.DS_Store
+Thumbs.db
