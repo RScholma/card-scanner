@@ -2,8 +2,8 @@
 
 Detects a Yu-Gi-Oh! card in a photo or webcam frame, locates the printed
 **set number** (e.g. `RA01-EN057`), and reads it with OCR. The set number is
-the lookup key used by the [backend](../Yu-Gi-Oh-Scanner-Backend) to fetch
-full card data for the [frontend](../Yu-Gi-OH-Scanner-Frontend).
+the lookup key used by the Yu-Gi-Oh-Scanner-Backend to fetch
+full card data for the Yu-Gi-OH-Scanner-Frontend.
 
 This repo is the computer-vision / OCR pipeline only, exposed as a standalone
 FastAPI service.
